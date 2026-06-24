@@ -114,8 +114,23 @@ export async function validateBaseUrlResolved(
   baseUrl: string,
   lookup: DnsLookupFn = defaultDnsLookup,
 ): Promise<BaseUrlValidationResult> {
-  const sync = validateBaseUrl(baseUrl);
+  const allowInternalApiBaseUrls = process.env.OPEN_DESIGN_ALLOW_INTERNAL_API_BASE_URLS === "1";
+  const sync = allowInternalApiBaseUrls
+    ? (() => {
+      let parsed: ParsedBaseUrl;
+      try {
+        parsed = new URL(String(baseUrl).replace(/\/+$/, ""));
+      } catch {
+        return { error: "Invalid baseUrl" } as BaseUrlValidationResult;
+      }
+      if (!["http:", "https:"].includes(parsed.protocol)) {
+        return { error: "Only http/https allowed" } as BaseUrlValidationResult;
+      }
+      return { parsed } as BaseUrlValidationResult;
+    })()
+    : validateBaseUrl(baseUrl);
   if (sync.error || !sync.parsed) return sync;
+  if (allowInternalApiBaseUrls) return sync;
 
   const hostname = sync.parsed.hostname.toLowerCase();
   if (isLoopbackApiHost(hostname)) return sync;

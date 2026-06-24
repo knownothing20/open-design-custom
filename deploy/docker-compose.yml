@@ -7,6 +7,9 @@ services:
     build:
       context: ..
       dockerfile: deploy/Dockerfile
+      args:
+        NODE_IMAGE: docker.1panel.live/library/node:24-alpine
+        RUNTIME_IMAGE: docker.1panel.live/library/node:24-alpine
     restart: always
     environment:
       NODE_ENV: production
@@ -17,9 +20,10 @@ services:
       OD_WEB_PORT: ${OPEN_DESIGN_PORT:-7456}
       OD_API_TOKEN: ${OD_API_TOKEN:-}
       OD_DISABLE_API_AUTH: ${OPEN_DESIGN_DISABLE_API_AUTH:-}
+      OPEN_DESIGN_ALLOW_INTERNAL_API_BASE_URLS: ${OPEN_DESIGN_ALLOW_INTERNAL_API_BASE_URLS:-}
       OD_CODEX_SANDBOX: ${OD_CODEX_SANDBOX:-}
     ports:
-      - "127.0.0.1:${OPEN_DESIGN_PORT:-7456}:7456"
+      - "${OPEN_DESIGN_PORT:-7456}:7456"
     volumes:
       - open_design_data:/app/.od
     read_only: true
