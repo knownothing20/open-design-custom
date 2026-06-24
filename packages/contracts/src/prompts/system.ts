@@ -243,6 +243,9 @@ export interface ComposeInput {
   // Free-form instructions the user set on this specific project.
   // Injected after user-level instructions and before the design system.
   projectInstructions?: string | undefined;
+  // Real-time media provider info from Settings (media-config.json).
+  // Lets the agent see the actual wire model + endpoint the user configured.
+  mediaProviderInfo?: string | undefined;
 }
 
 export function composeSystemPrompt({
@@ -264,6 +267,7 @@ export function composeSystemPrompt({
   locale,
   userInstructions,
   projectInstructions,
+  mediaProviderInfo,
 }: ComposeInput): string {
   // Discovery + philosophy goes FIRST so its hard rules ("emit a form on
   // turn 1", "branch on brand on turn 2", "TodoWrite on turn 3", run
@@ -403,7 +407,7 @@ export function composeSystemPrompt({
     }
   }
 
-  const metaBlock = renderMetadataBlock(metadata, template, audioVoiceOptions, audioVoiceOptionsError);
+  const metaBlock = renderMetadataBlock(metadata, template, audioVoiceOptions, audioVoiceOptionsError, mediaProviderInfo);
   if (metaBlock) parts.push(metaBlock);
 
   // Decks have a load-bearing framework (nav, counter, scroll JS, print
@@ -500,6 +504,7 @@ function renderMetadataBlock(
   template: ProjectTemplate | undefined,
   audioVoiceOptions: AudioVoiceOption[] | undefined,
   audioVoiceOptionsError: string | undefined,
+  mediaProviderInfo?: string,
 ): string {
   if (!metadata) return '';
   const lines: string[] = [];
@@ -599,6 +604,9 @@ function renderMetadataBlock(
     lines.push(
       `- **imageModel**: ${metadata.imageModel ?? '(unknown - ask: which image model to use)'}`,
     );
+    if (mediaProviderInfo) {
+      lines.push(`- **mediaProvider**: ${mediaProviderInfo}`);
+    }
     lines.push(
       `- **aspectRatio**: ${metadata.imageAspect ?? '(unknown - ask: 1:1, 16:9, 9:16, 4:3, 3:4)'}`,
     );

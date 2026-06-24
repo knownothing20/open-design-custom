@@ -505,6 +505,9 @@ export interface ComposeInput {
   // Free-form instructions the user set on this specific project.
   // Injected after user-level instructions and before the design system.
   projectInstructions?: string | undefined;
+  // Real-time media provider info from Settings (media-config.json).
+  // Lets the agent see the actual wire model + endpoint the user configured.
+  mediaProviderInfo?: string | undefined;
   // UI locale selected by the client. User-visible generated form copy
   // must follow this locale even when the user's initial prompt is brief.
   locale?: string | undefined;
@@ -551,6 +554,7 @@ export function composeSystemPrompt({
   sessionMode,
   userInstructions,
   projectInstructions,
+  mediaProviderInfo,
   mediaExecution,
 }: ComposeInput): string {
   // Injection resistance goes FIRST — before everything else — so no later
@@ -781,6 +785,7 @@ export function composeSystemPrompt({
     audioVoiceOptions,
     audioVoiceOptionsError,
     mediaExecution,
+    mediaProviderInfo,
   );
   if (metaBlock) parts.push(metaBlock);
 
@@ -1106,6 +1111,7 @@ function renderMetadataBlock(
   audioVoiceOptions: AudioVoiceOption[] | undefined,
   audioVoiceOptionsError: string | undefined,
   mediaExecution: MediaExecutionPolicy | undefined,
+  mediaProviderInfo?: string,
 ): string {
   if (!metadata) return '';
   const lines: string[] = [];
@@ -1208,6 +1214,9 @@ function renderMetadataBlock(
     lines.push(
       `- **imageModel**: ${metadata.imageModel ?? '(unknown — ask: which image model/provider to use)'}`,
     );
+    if (mediaProviderInfo) {
+      lines.push(`- **mediaProvider**: ${mediaProviderInfo}`);
+    }
     lines.push(
       `- **aspectRatio**: ${metadata.imageAspect ?? '(unknown — ask: 1:1, 16:9 for landscape, 9:16 for portrait)'}`,
     );

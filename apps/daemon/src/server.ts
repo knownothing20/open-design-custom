@@ -356,8 +356,10 @@ import {
   MEDIA_PROVIDERS,
   VIDEO_LENGTHS_SEC,
   VIDEO_MODELS,
+  findMediaModel,
+  findProvider,
 } from './media/models.js';
-import { readMaskedConfig, writeConfig } from './media/config.js';
+import { readMaskedConfig, writeConfig, resolveProviderConfig } from './media/config.js';
 import {
   deleteMediaTask,
   getMediaTask,
@@ -4927,6 +4929,28 @@ export async function startServer({
       }
     }
 
+    // Build real-time media provider info from Settings (media-config.json).
+    // Lets the agent see the actual wire model + endpoint the user configured,
+    // not just the catalogue id. Read on every call so Settings changes take
+    // effect immediately on the next conversation turn.
+    let mediaProviderInfo: string | undefined;
+    try {
+      if (metadata?.kind === 'image' && metadata.imageModel) {
+        const def = findMediaModel(metadata.imageModel);
+        if (def) {
+          const creds = await resolveProviderConfig(RUNTIME_DATA_DIR, def.provider);
+          const provider = findProvider(def.provider);
+          const parts: string[] = [];
+          if (provider) parts.push(provider.label);
+          if (creds.baseUrl) parts.push(creds.baseUrl);
+          if (creds.model) parts.push(`model: ${creds.model}`);
+          if (parts.length > 0) mediaProviderInfo = parts.join(' · ');
+        }
+      }
+    } catch (err) {
+      console.warn('[prompt] media provider info failed', err);
+    }
+
     const prompt = composeSystemPrompt({
       agentId,
       includeCodexImagegenOverride: false,
@@ -4971,6 +4995,7 @@ export async function startServer({
       ...(pluginBlock ? { pluginBlock } : {}),
       ...(activeStageBlocks ? { activeStageBlocks } : {}),
       userInstructions,
+      mediaProviderInfo,
     });
     // The chat handler also needs to know where the active skill lives
     // on disk so it can stage a per-project copy of its side files
