@@ -237,3 +237,38 @@
     background-position: -200% 0, 0 0;
   }
 }
+
+
+/* Delete button on project cards */
+.recent-projects__card-container {
+  position: relative;
+}
+
+.recent-projects__delete-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 10;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.15s ease, background 0.15s ease;
+  padding: 0;
+  line-height: 1;
+}
+
+.recent-projects__card-container:hover .recent-projects__delete-btn {
+  opacity: 1;
+}
+
+.recent-projects__delete-btn:hover {
+  background: #e53935;
+}

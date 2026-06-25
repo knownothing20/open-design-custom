@@ -24,6 +24,7 @@ interface Props {
    *  while the list is loading so we never need a loading state. */
   loading?: boolean;
   onOpen: (id: string) => void;
+  onDelete?: (id: string, name: string) => void;
   onViewAll: () => void;
   limit?: number;
 }
@@ -39,6 +40,7 @@ export function RecentProjectsStrip({
   projects,
   designSystems = EMPTY_DESIGN_SYSTEMS,
   onOpen,
+  onDelete,
   onViewAll,
   limit = 6,
 }: Props) {
@@ -154,15 +156,27 @@ export function RecentProjectsStrip({
             !publishedDesignSystem &&
             (status === 'running' || status === 'queued' || status === 'awaiting_input');
           return (
-            <button
-              key={project.id}
-              type="button"
-              role="listitem"
-              className={`recent-projects__card${designSystemProject ? ' is-design-system-project' : ''}`}
-              onClick={() => onOpen(project.id)}
-              title={project.name}
-              data-project-id={project.id}
-            >
+            <div key={project.id} className="recent-projects__card-container" data-project-id={project.id}>
+              {onDelete && (
+                <button
+                  type="button"
+                  className="recent-projects__delete-btn"
+                  onClick={(e) => { e.stopPropagation(); onDelete(project.id, project.name); }}
+                  title="Delete project"
+                  aria-label="Delete project"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                  </svg>
+                </button>
+              )}
+              <button
+                type="button"
+                role="listitem"
+                className="recent-projects__card"
+                onClick={() => onOpen(project.id)}
+                title={project.name}
+              >
               <div
                 className={`recent-projects__card-thumb recent-projects__card-thumb-${cover.kind}`}
                 style={cover.style}
@@ -214,7 +228,8 @@ export function RecentProjectsStrip({
                   {relativeTime(project.updatedAt, t)}
                 </div>
               </div>
-            </button>
+              </button>
+            </div>
           );
         })}
       </div>

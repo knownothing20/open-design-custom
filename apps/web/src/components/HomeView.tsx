@@ -1734,6 +1734,21 @@ export function HomeView({
         projects={projects}
         designSystems={designSystems}
         {...(projectsLoading !== undefined ? { loading: projectsLoading } : {})}
+                onDelete={async (id, name) => {
+          if (!confirm(`Delete project "${name}"? This cannot be undone.`)) return;
+          try {
+            const res = await fetch(`/api/projects/${id}`, { method: 'DELETE' });
+            if (res.ok) {
+              // Refresh project list
+              window.location.reload();
+            } else {
+              alert('Failed to delete project');
+            }
+          } catch (err) {
+            alert('Error: ' + err);
+          }
+        }}
+        onOpen={(id) => {
         onOpen={(id) => {
           // P0 ui_click area=recent_projects element=project_card — emit
           // before navigation so the event isn't lost when the host
