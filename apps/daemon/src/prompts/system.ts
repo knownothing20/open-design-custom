@@ -1212,7 +1212,7 @@ function renderMetadataBlock(
   }
   if (metadata.kind === 'image') {
     lines.push(
-      `- **imageModel**: ${metadata.imageModel ?? '(unknown — ask: which image model/provider to use)'}`,
+      `- **imageModel**: ${metadata.imageModel || 'custom-image'}`,
     );
     if (mediaProviderInfo) {
       lines.push(`- **mediaProvider**: ${mediaProviderInfo}`);
