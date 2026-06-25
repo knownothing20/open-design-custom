@@ -1395,7 +1395,7 @@ function renderMetadataBlock(
     lines.push(`### Reference prompt template — "${tpl.title ?? 'untitled'}"`);
     const meta = [];
     if (tpl.category) meta.push(`category: ${tpl.category}`);
-    if (tpl.model) meta.push(`suggested model: ${tpl.model}`);
+    // if (tpl.model) meta.push(`suggested model: ${tpl.model}`);
     if (tpl.aspect) meta.push(`aspect: ${tpl.aspect}`);
     if (Array.isArray(tpl.tags) && tpl.tags.length > 0) {
       meta.push(`tags: ${tpl.tags.join(', ')}`);
