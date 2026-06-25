@@ -7,12 +7,12 @@
   "tags": [
     "cinematic"
   ],
-  "model": "gpt-image-2",
+  "model": "custom-image",
   "aspect": "1:1",
   "prompt": "Inside an elevator, the metal walls have a slight cold reflection, and the ceiling lights are whitish but uneven. The space is enclosed and quiet. A {argument name=\"subject\" default=\"young Asian girl\"} stands in a corner position of the elevator, with a background of slightly distorted mirrors and floor lights.",
   "previewImageUrl": "https://cms-assets.youmind.com/media/1777453149026_gd2k50_HHCSvymboAAVscc.jpg",
   "source": {
-    "repo": "YouMind-OpenLab/awesome-gpt-image-2",
+    "repo": "custom-template",
     "license": "CC-BY-4.0",
     "author": "Leo AIPhi",
     "url": "https://x.com/xiaochou1945/status/2049299191550407147"

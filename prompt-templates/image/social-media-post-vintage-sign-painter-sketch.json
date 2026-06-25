@@ -7,12 +7,12 @@
   "tags": [
     "action"
   ],
-  "model": "gpt-image-2",
+  "model": "custom-image",
   "aspect": "1:1",
   "prompt": "A hand-lettered sketch of the phrase “{argument name=\"phrase\" default=\"Good Morning\"} ” on warm-white marker paper, drawn with a black brush marker. Soft graphite construction lines visible underneath the inked strokes. Slight ink bleed-through from the previous page showing as faint ghosting. Letterforms are vintage sign-painter caps. Confident single-pass strokes, not retraced. Paper edges visible at the margins. Studio scan, slightly warm white balance, 600 DPI texture, no digital cleanup. No vector outlines, no AI airbrushed shading, no perfect symmetry.",
   "previewImageUrl": "https://cms-assets.youmind.com/media/1777453138935_3hpxkg_HHC-7jObsAAWmsk.jpg",
   "source": {
-    "repo": "YouMind-OpenLab/awesome-gpt-image-2",
+    "repo": "custom-template",
     "license": "CC-BY-4.0",
     "author": "Ashish Sheth",
     "url": "https://x.com/commanderdgr8/status/2049347770725912874"

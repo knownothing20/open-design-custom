@@ -8,12 +8,12 @@
     "portrait",
     "fantasy"
   ],
-  "model": "gpt-image-2",
+  "model": "custom-image",
   "aspect": "1:1",
   "prompt": "realistic skin texture, visible pores around nose and cheeks, natural slight unevenness, no filter quality, handheld phone camera feel, slight angle, casual framing, filmed in a real environment, soft window light from the left, natural indoor lighting, no harsh highlights",
   "previewImageUrl": "https://cms-assets.youmind.com/media/1777453164857_ghcikd_HG9U5wnbYAE3-76.jpg",
   "source": {
-    "repo": "YouMind-OpenLab/awesome-gpt-image-2",
+    "repo": "custom-template",
     "license": "CC-BY-4.0",
     "author": "Adrian Solarz",
     "url": "https://x.com/adriansolarzz/status/2048950419204751574"
