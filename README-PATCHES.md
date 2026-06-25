@@ -52,7 +52,20 @@
 
 **效果**：新建 image 项目时，默认选中 custom-image，agent 直接用用户在 Settings 里配的端点。
 
-### 4. 项目删除按钮 (`d419c68`)
+### 4. media-contract 默认模型修复 (`3ee736b`)
+
+**问题**：`media-contract.ts` 第 378 行硬编码了 `gpt-image-2` 作为默认模型，导致 agent 的示例提示词总是用 `gpt-image-2`，即使 Settings 里配了 custom-image 也没用。
+
+**解决**：修改 `apps/daemon/src/prompts/media-contract.ts`，将 `otherwise use \`gpt-image-2\`` 改为 `otherwise use \`custom-image\``。
+
+**改动文件**：
+- `apps/daemon/src/prompts/media-contract.ts` — 硬编码默认模型
+- `apps/daemon/src/media/models.ts` — daemon 侧 models 默认值
+- `apps/web/src/media/models.ts` — 前端侧 models 默认值
+
+**效果**：agent 的示例提示词自动使用 custom-image，不再需要手动覆盖。
+
+### 5. 项目删除按钮 (`d419c68`)
 
 **问题**：OD 没有删除项目的功能，API 有 `DELETE /api/projects/:id` 但 UI 没有暴露。
 

@@ -375,7 +375,7 @@ path is given.
    - **Image, best quality (user says "best", "highest quality", "most realistic")**:
      use \`flux-pro-ultra\` — but tell the user it takes 60–180s
    - **Image, default / no preference stated**: use the project metadata's
-     \`imageModel\` if set; otherwise use \`gpt-image-2\`
+     \`imageModel\` if set; otherwise use \`custom-image\`
    - **Video, best quality**: use project metadata \`videoModel\` if set; otherwise
      \`doubao-seedance-2-0-260128\`
 
