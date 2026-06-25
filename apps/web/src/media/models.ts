@@ -333,7 +333,6 @@ export const IMAGE_MODELS: MediaModel[] = [
     hint: 'OpenAI · 4K, native multimodal',
     provider: 'openai',
     caps: ['t2i', 'i2i', 'inpaint'],
-    default: true,
   },
   {
     id: 'gpt-image-1.5',
@@ -488,6 +487,7 @@ export const IMAGE_MODELS: MediaModel[] = [
     hint: 'Custom · OpenAI-compatible endpoint',
     provider: 'custom-image',
     caps: ['t2i', 'i2i'],
+    default: true,
   },
 
   // Black Forest Labs FLUX family.

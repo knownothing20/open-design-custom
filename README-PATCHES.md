@@ -6,6 +6,7 @@
 
 1. 需要本地化适配（中国网络环境、内网 API）
 2. 需要修改提示词注入逻辑（让 agent 看到 Settings 里的真实配置）
+3. 需要将默认图片模型改为 custom-image（避免每次都用 gpt-image-2）
 
 ## 补丁列表
 
@@ -38,6 +39,18 @@
 ```
 
 改 Settings 后下次对话立即生效，不需要重启。
+
+### 3. 默认图片模型改为 custom-image (`3a32767`)
+
+**问题**：新建项目默认用 `gpt-image-2`，每次都要手动改成 custom-image。
+
+**解决**：修改 `apps/web/src/media/models.ts`，将 `custom-image` 设为默认。
+
+**改动**：
+- 去掉 `gpt-image-2` 的 `default: true`
+- 给 `custom-image` 加 `default: true`
+
+**效果**：新建 image 项目时，默认选中 custom-image，agent 直接用用户在 Settings 里配的端点。
 
 ## 查看补丁
 
