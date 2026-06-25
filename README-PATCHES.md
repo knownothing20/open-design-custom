@@ -52,6 +52,19 @@
 
 **效果**：新建 image 项目时，默认选中 custom-image，agent 直接用用户在 Settings 里配的端点。
 
+### 4. 项目删除按钮 (`d419c68`)
+
+**问题**：OD 没有删除项目的功能，API 有 `DELETE /api/projects/:id` 但 UI 没有暴露。
+
+**解决**：在 RecentProjectsStrip 项目卡片上添加删除按钮。
+
+**改动文件**：
+- `apps/web/src/components/RecentProjectsStrip.tsx` — 添加 `onDelete` prop 和删除按钮
+- `apps/web/src/styles/home/recent-projects.css` — 删除按钮样式（hover 显示红色 X）
+- `apps/web/src/components/HomeView.tsx` — 传递 onDelete 处理函数
+
+**效果**：鼠标 hover 到项目卡片时，右上角出现红色 X 按钮，点击后确认删除。
+
 ## 查看补丁
 
 ```bash
