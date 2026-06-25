@@ -65,7 +65,35 @@
 
 **效果**：agent 的示例提示词自动使用 custom-image，不再需要手动覆盖。
 
-### 5. 项目删除按钮 (`d419c68`)
+### 5. media-contract 强制约束 (`d6ecff4`)
+
+**问题**：agent 仍然忽略 imageModel 配置，强制使用 `gpt-image-2`。
+
+**解决**：在 `media-contract.ts` 中添加明确的 NEVER 指令。
+
+**改动**：
+```
+# 修改前
+`imageModel` if set; otherwise use `custom-image`
+
+# 修改后
+`imageModel` if set; otherwise use `custom-image`. NEVER use gpt-image-2 or any other model — ALWAYS use the configured imageModel.
+```
+
+**效果**：agent 被强制要求使用配置的 imageModel，不再自行选择其他模型。
+
+### 6. 移除模板 suggested model 显示 (`c78b193`)
+
+**问题**：当用户选择模板时，system.js 会显示 `suggested model: gpt-image-2`，agent 把这个当成权威，忽略项目的 `imageModel` 设置。
+
+**解决**：注释掉 `system.ts` 第 1398 行，不再显示模板的 suggested model。
+
+**改动文件**：
+- `apps/daemon/src/prompts/system.ts` — 注释掉 `if (tpl.model) meta.push(...)` 
+
+**效果**：agent 只看项目的 `imageModel`，不再被模板的 model 字段误导。
+
+### 7. 项目删除按钮 (`d419c68`)
 
 **问题**：OD 没有删除项目的功能，API 有 `DELETE /api/projects/:id` 但 UI 没有暴露。
 
