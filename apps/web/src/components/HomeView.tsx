@@ -1749,7 +1749,6 @@ export function HomeView({
           }
         }}
         onOpen={(id) => {
-        onOpen={(id) => {
           // P0 ui_click area=recent_projects element=project_card — emit
           // before navigation so the event isn't lost when the host
           // re-renders into the project view.
